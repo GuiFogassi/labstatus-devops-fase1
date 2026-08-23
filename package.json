@@ -1,0 +1,23 @@
+{
+  "name": "labstatus-api",
+  "version": "1.0.0",
+  "description": "API de status de laboratórios acadêmicos — Fase 1 DevOps na Prática",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "jest --coverage",
+    "test:ci": "jest --ci --coverage --reporters=default"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": ["devops", "ci", "nodejs", "aws"],
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.1.0"
+  }
+}
