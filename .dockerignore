@@ -1,0 +1,12 @@
+node_modules
+coverage
+.git
+.github
+terraform
+site
+tests
+*.md
+.env
+.env.*
+.terraform
+*.tfstate*

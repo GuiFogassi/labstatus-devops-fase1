@@ -1,10 +1,10 @@
 # LabStatus
 
-Fase 1 da disciplina DevOps na Prática (PUCRS).
+Projeto das Fases 1 e 2 da disciplina DevOps na Prática (PUCRS).
 
-API em Node.js pra consultar o status dos laboratórios, site estático, pipeline no GitHub Actions e scripts Terraform pra AWS Academy.
+API em Node.js para consulta de status de laboratórios, com testes automatizados, GitHub Actions, Terraform e containers Docker.
 
-## Como rodar
+## Execução local
 
 ```bash
 npm install
@@ -12,29 +12,31 @@ npm test
 npm start
 ```
 
-Rotas:
+Com Docker:
 
-- `GET /health`
-- `GET /api/labs`
-- `GET /api/labs/:id`
-- `POST /api/labs`
+```bash
+docker compose up --build
+```
 
-## CI
+Verificação: `http://localhost:3000/health`
 
-O arquivo `.github/workflows/ci.yml` roda em push/PR na `main`:
+## Pipeline
 
-- instala as dependências e executa os testes
-- valida o Terraform (`fmt`, `init` e `validate`)
+- Integração contínua: `.github/workflows/ci.yml` — testes, validação do Terraform e `docker build`.
+- Entrega contínua: `.github/workflows/cd.yml` — publicação da imagem em `ghcr.io/guifogassi/labstatus-api` na branch `main`.
 
-Nesta fase o pipeline **não** faz deploy e **não** roda `terraform apply`.
+O CD não executa `terraform apply`, para não consumir crédito da AWS Academy automaticamente.
 
-## Infra
+## Implantação do container
 
-Na pasta `terraform/`:
+```bash
+chmod +x scripts/deploy.sh
+./scripts/deploy.sh
+```
 
-- S3 com o site
-- security group (22, 80 e 3000)
-- EC2 `t2.micro` (dá pra desligar com `create_ec2 = false`)
+## Infraestrutura
+
+A pasta `terraform/` descreve S3, security group e EC2 opcional. O `user_data` instala Docker na instância.
 
 ```bash
 cd terraform
@@ -42,5 +44,3 @@ cp terraform.tfvars.example terraform.tfvars
 terraform init
 terraform plan
 ```
-
-O `apply` só no lab da AWS Academy. No final, `terraform destroy` e encerra o lab.

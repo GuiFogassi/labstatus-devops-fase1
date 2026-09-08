@@ -5,6 +5,21 @@ function createApp() {
   const app = express();
   app.use(express.json());
 
+  app.use((req, res, next) => {
+    const start = Date.now();
+    res.on("finish", () => {
+      console.log(
+        JSON.stringify({
+          metodo: req.method,
+          rota: req.originalUrl,
+          status: res.statusCode,
+          ms: Date.now() - start
+        })
+      );
+    });
+    next();
+  });
+
   app.get("/health", (_req, res) => {
     res.json({
       status: "ok",

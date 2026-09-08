@@ -17,3 +17,7 @@ override.tf.json
 *_override.tf
 *_override.tf.json
 .terraform.tfstate.lock.info
+
+*.pptx
+fluxo-devops-fase2.png
+scripts/preencher_fase2.py
